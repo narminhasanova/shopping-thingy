@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://api.fontshare.com/css?f[]=satoshi@500&amp;display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8c37b4294b.js"></script>
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <div id="top">
+        <img src="img/logo.png" alt="Reload the page">
+        <p>Fruit</p>Shop™
+    </div>
+    <div id="header">
+        <div class="hPart"><a href="index.html">Home</a></div>
+        <span><label for="searchInput">Search:</label><input id="searchInput" type="search"
+                placeholder="Search for fruits"></span>
+        <div class="hPart" id="sellShow">Sell</div>
+    </div>
+    <div id="sellDiv">
+        <form id="sellForm">
+            <span><label for="nameInput">Name:</label>
+                <input  onkeydown="return /[a-z]/i.test(event.key)" id="nameInput" type="text" placeholder="Fruit name" maxlength="22" required>
+            </span>
+            <span><label for="priceInput">Price:</label>
+                <input id="priceInput" placeholder="Fruit price" type="number" required>
+            </span>
+            <span>
+                <input id="imgInput" type="file" accept="image/*" required>
+            </span>
+            <input type="submit" value="Sell" id="sellButton" form="sellForm">
+            <div id="goBack">Go back</div>
+        </form>
+    </div>
+    <p id="toptext">Products!</p>
+    <div id="viewProducts">
+
+    </div>
+    <div id="foot">
+        <span>
+            <a href="">Careers</a>
+            <a href="">Blog</a>
+            <a href="">About FruitShop</a>
+            <a href="">FruitShop Sellers</a>
+            <a href="">FruitShop Investors</a>
+            <a href="">FruitShop Safety</a>
+        </span>
+        <span>
+            <a href="">Sell products on FruitShop</a>
+            <a href="">Sell on FruitShop Business</a>
+            <a href="">Advertise your products</a>
+            <a href="">View your products</a>
+            <a href="">View your products' statistics</a>
+            <a href="">Partnership</a>
+        </span>
+        <div id="footEnd">
+            <p>Conditions of use</p>
+            <p>Terms of privacy</p>
+            <p>1990-2022 FruitsShop™ Copyright</p>
+        </div>
+    </div>
+</body>
+
+</html>
