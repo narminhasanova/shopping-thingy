@@ -1,7 +1,7 @@
 // create an array to pick fruits randomly
 let fruits = ["Apple", "Pear", "Cherry", "Strawberry", "Pineapple", "Watermelon", "Blueberry"];
 let productsArray = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
     // get random number
     let randomPick = Math.trunc(Math.random() * fruits.length);
     // write to the object random fruit name
@@ -12,16 +12,19 @@ for (let i = 0; i < 20; i++) {
     let product = { name: uname, price: price, img: url };
     productsArray.push(product);
 }
+console.log(localStorage.getItem("productArr"));
 let jsonStr = JSON.stringify(productsArray);
 // checking if localStorage is empty, then write
 if (localStorage.getItem("productArr") == null) {
     localStorage.setItem("productArr", jsonStr);
 }
+// getting arr from localStr
+let myArr = JSON.parse(localStorage.getItem("productArr"));
 viewAll();
 function viewAll() {
     $("#viewProducts").empty();
     // get the new array from localStorage
-    const myArr = JSON.parse(localStorage.getItem("productArr"));
+    myArr = JSON.parse(localStorage.getItem("productArr"));
     for (let i = 0; i < myArr.length; i++) {
         viewProducts(myArr[i], i);
     }
@@ -29,7 +32,7 @@ function viewAll() {
 function viewProducts(myObj, a) {
     console.log("wroking");
     let item = $(`<div class="product visible" id="i${a}">
-    <img src="img/apple.png" class="img">
+    <img src="${myObj.img}" class="img">
     <p>${myObj.name}</p>
     <p>${myObj.price}$</p>
     </div>`);
@@ -51,11 +54,11 @@ $("#goBack").click(function () {
     $("#sellDiv").fadeOut();
 });
 $("#sellForm").submit(function (e) {
-    debugger;
+    myArr = JSON.parse(localStorage.getItem("productArr"));
     e.preventDefault();
     let fruitName = $("#nameInput").val();
     let fruitPrice = $("#priceInput").val();
-    let inputFileTag = document.getElementById("imgInput")
+    let inputFileTag = document.getElementById("imgInput");
     if (inputFileTag.files && inputFileTag.files[0]) {
         var reader = new FileReader();
         reader.onload = imageIsLoaded;
@@ -63,24 +66,22 @@ $("#sellForm").submit(function (e) {
     }
     function imageIsLoaded(e) {
         localStorage.setItem("img", e.target.result);
-
-        let fruitImg = localStorage.getItem("img")
-        localStorage.removeItem("img")
-        let fruit = {
-            name: fruitName,
-            price: fruitPrice,
-            img: fruitImg
-        }
-        productsArray.push(fruit)
-        $("#sellDiv").fadeOut();
-        alert("Fruit Posted!")
-        let arrObj = JSON.stringify(productsArray)
-        localStorage.setItem("productArr", arrObj)
-        viewAll()
-        $("#nameInput").val(null);
-        $("#priceInput").val(null);
-        $("#imgInput").val(null);
-    };
+    }
+    let fruitImg = localStorage.getItem("img");
+    // localStorage.removeItem("img")
+    let fruit = {
+        name: fruitName,
+        price: fruitPrice,
+        img: fruitImg
+    }
+    myArr.push(fruit)
+    $("#sellDiv").fadeOut();
+    alert("Fruit Posted!");
+    localStorage.setItem("productArr", JSON.stringify(myArr));
+    viewAll();
+    $("#nameInput").val(null);
+    $("#priceInput").val(null);
+    $("#imgInput").val(null);
 });
 $("#searchInput").change(function () {
     searchForFruits();
@@ -88,7 +89,7 @@ $("#searchInput").change(function () {
 function searchForFruits() {
     $("#viewProducts").empty();
     // everytime get the latest version of the array from localStorage
-    const myArr = JSON.parse(localStorage.getItem("productArr"));
+    myArr = JSON.parse(localStorage.getItem("productArr"));
     let searchedInput = $("#searchInput").val();
     for (let i = 0; i < myArr.length; i++) {
         if (myArr[i].name == searchedInput) {
