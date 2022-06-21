@@ -52,6 +52,7 @@ $("#goBack").click(function () {
     $("#sellDiv").fadeOut();
 });
 $("#sellForm").submit(function (e) {
+    debugger;
     e.preventDefault();
     let fruitName = $("#nameInput").val();
     let fruitPrice = $("#priceInput").val();
@@ -63,23 +64,24 @@ $("#sellForm").submit(function (e) {
     }
     function imageIsLoaded(e) {
         localStorage.setItem("img", e.target.result);
+
+        let fruitImg = localStorage.getItem("img")
+        localStorage.removeItem("img")
+        let fruit = {
+            name: fruitName,
+            price: fruitPrice,
+            img: fruitImg
+        }
+        productsArray.push(fruit)
+        $("#sellDiv").fadeOut();
+        alert("Fruit Posted!")
+        let arrObj = JSON.stringify(productsArray)
+        localStorage.setItem("productArr", arrObj)
+        viewAll()
+        $("#nameInput").val(null);
+        $("#priceInput").val(null);
+        $("#imgInput").val(null);
     };
-    let fruitImg = localStorage.getItem("img")
-    localStorage.removeItem("img")
-    let fruit = {
-        name: fruitName,
-        price: fruitPrice,
-        img: fruitImg
-    }
-    productsArray.push(fruit)
-    $("#sellDiv").fadeOut();
-    alert("Fruit Posted!")
-    let arrObj = JSON.stringify(productsArray)
-    localStorage.setItem("productArr", arrObj)
-    viewAll()
-    $("#nameInput").val(null);
-    $("#priceInput").val(null);
-    $("#imgInput").val(null);
 });
 $("#searchInput").change(function () {
     searchForFruits()
@@ -88,25 +90,8 @@ function searchForFruits() {
     let searchedInput = $("#searchInput").val();
     for (let i = 0; i < productsArray.length; i++) {
         if (productsArray[i].name == searchedInput) {
-            // $("#viewProducts").empty()
             console.log("name matched")
-            // viewProducts(i)
-            let product = productsArray[i]
-            let div = document.createElement("div")
-            div.classList.add("product");
-            div.classList.add("visible");
-            div.setAttribute("id", `i${i}`)
-            let img = document.createElement("img")
-            img.setAttribute("src", product.img);
-            img.classList.add("img")
-            let p1 = document.createElement("p")
-            p1.innerText = product.name
-            let p2 = document.createElement("p")
-            p2.innerText = product.price + "$"
-            div.appendChild(img)
-            div.appendChild(p1)
-            div.appendChild(p2)
-            document.querySelector("#viewProducts").appendChild(div)
+            viewProducts(i)
         }
         else if (productsArray[i].price == searchedInput) {
             $("#viewProducts").text("No products found with given search")
@@ -121,6 +106,3 @@ function searchForFruits() {
         }
     }
 }
-$("#searchInput").mouseleave(function () { 
-    searchForFruits()
-});
