@@ -1,40 +1,32 @@
-let productsArray = []
-if (localStorage.getItem("productArr") != null) {
-    productsArray = JSON.parse(localStorage.getItem("productArr"))
+let productsArray = [];
+for (let i = 0; i < 20; i++) {
+    let uname = `Apple`;
+    let price = `${i + 1}`;
+    let url = "img/apple.png";
+    let product = { name: uname, price: price, img: url };
+    productsArray.push(product);
 }
-if (productsArray.length == 0) {
-    for (let i = 0; i < 20; i++) {
-        let uname = `Apple`
-        let price = `${i + 1}`
-        let url = "img/apple.png"
-        let product = { name: uname, price: price, img: url }
-        productsArray.push(product)
-    }
+let jsonStr = JSON.stringify(productsArray);
+// checking if localStorage is empty, then write
+if (localStorage.getItem("productArr") == null) {
+    localStorage.setItem("productArr", jsonStr);
 }
-viewAll()
+viewAll();
 function viewAll() {
-    $("#viewProducts").empty()
-    for (let i = 0; i < productsArray.length; i++) {
-        viewProducts(i)
+    $("#viewProducts").empty();
+    // get the new array from localStorage
+    const myArr = JSON.parse(localStorage.getItem("productArr"));
+    for (let i = 0; i < myArr.length; i++) {
+        viewProducts(myArr[i], i);
     }
 }
-function viewProducts(a) {
-    let product = productsArray[a]
-    let div = document.createElement("div")
-    div.classList.add("product");
-    div.classList.add("visible");
-    div.setAttribute("id", `i${a}`)
-    let img = document.createElement("img")
-    img.setAttribute("src", product.img);
-    img.classList.add("img")
-    let p1 = document.createElement("p")
-    p1.innerText = product.name
-    let p2 = document.createElement("p")
-    p2.innerText = product.price + "$"
-    div.appendChild(img)
-    div.appendChild(p1)
-    div.appendChild(p2)
-    document.querySelector("#viewProducts").appendChild(div)
+function viewProducts(myObj, a) {
+    let item = $(`<div class="product visible" id="i${a}">
+    <img src="img/apple.png" class="img">
+    <p>${myObj.name}</p>
+    <p>${myObj.price}$</p>
+    </div>`);
+    $("#viewProducts").append(item);
 }
 $("#sellDiv").fadeOut(0);
 let arrObj = JSON.stringify(productsArray)
